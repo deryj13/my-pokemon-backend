@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database
-# with its default values.
-# The data can then be loaded with the rails db:seed (or created alongside the
-# db with db:setup).
-#
-# Examples:
-#
-#   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
-#   Mayor.create(name: 'Emanuel', city: cities.first)
+require 'csv'
+
+Pokemon.transaction do
+  CSV.foreach(Rails.root + 'data/pokemon.csv',
+              headers: true,
+              header_converters: ->(h) { h.downcase.to_sym }) do |pokemon_row|
+    pokemon = pokemon_row.to_hash
+    Pokemon.create pokemon unless Pokemon.exists? pokemon
+  end
+end
