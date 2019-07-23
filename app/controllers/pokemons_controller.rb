@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PokemonsController < ApplicationController
-  before_action :set_pokemon, only: [:show, :update, :destroy]
+  before_action :set_pokemon, only: %i[show update destroy]
 
   # GET /pokemons
   def index
@@ -39,13 +41,14 @@ class PokemonsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pokemon
-      @pokemon = Pokemon.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def pokemon_params
-      params.require(:pokemon).permit(:pokemon, :typing, :tier, :base_stats)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pokemon
+    @pokemon = Pokemon.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def pokemon_params
+    params.require(:pokemon).permit(:pokemon, :typing, :tier, :base_stats)
+  end
 end

@@ -1,9 +1,11 @@
-class TeamsController < ApplicationController
-  before_action :set_team, only: [:show, :update, :destroy]
+# frozen_string_literal: true
+
+class TeamsController < ProtectedController
+  before_action :set_team, only: %i[show update destroy]
 
   # GET /teams
   def index
-    @teams = Team.all
+    @teams = current_user.teams.all
 
     render json: @teams
   end
@@ -15,7 +17,7 @@ class TeamsController < ApplicationController
 
   # POST /teams
   def create
-    @team = Team.new(team_params)
+    @team = current_user.teams.new(team_params)
 
     if @team.save
       render json: @team, status: :created, location: @team
@@ -39,13 +41,14 @@ class TeamsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_team
-      @team = Team.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def team_params
-      params.require(:team).permit(:user_id, :pokemon_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_team
+    @team = current_user.teams.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def team_params
+    params.require(:team).permit(:user_id, :pokemon_id)
+  end
 end
