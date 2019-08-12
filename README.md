@@ -1,7 +1,10 @@
 # Competitive Pokemon Team Creator
 
 ## Link to Front End Repo
+https://github.com/deryj13/my-pokemon-client
 
+## Deployed URL
+https://deryj13.github.io/my-pokemon-client/
 
 ## Technologies Used
 - Ruby on Rails
